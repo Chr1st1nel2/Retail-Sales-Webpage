@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   info: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    height:'100vh',
+    height:'300vh',
     color: theme.palette.text.secondary,
   },
   title: {
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   // const labels = Utils.months({count: 12});
+
 
   return (
     <Fragment>
