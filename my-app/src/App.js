@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper, AppBar, Toolbar, Card, Typography, Chip } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import data from './stackline_frontend_assessment_data_2021.json';
 import logo from './stackline_logo.svg';
 import './App.css';
@@ -45,11 +46,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  data: {
+    color: '#bdbdbd',
+  },
+  tableHeader: {
+    color: '#616161',
   }
 }));
 
 function App() {
   const classes = useStyles();
+  // const labels = Utils.months({count: 12});
 
   return (
     <Fragment>
@@ -77,17 +85,43 @@ function App() {
 
           </Grid>
         ))}
+        {data.map(( data ) => (
           <Grid item xs={9} className={classes.grid}>
             <Grid container spacing={2} direction='column'>
               <Grid item>
-                <Paper className={classes.graph}>1</Paper>
+                <Paper className={classes.graph}>Retail Sales</Paper>
               </Grid>
               <Grid item>
-                <Paper className={classes.table}>2</Paper>
+                <TableContainer component={Paper}>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell className={classes.tableHeader}>WEEK ENDING</TableCell>
+                        <TableCell className={classes.tableHeader} align="right">RETAIL SALES</TableCell>
+                        <TableCell className={classes.tableHeader} align="right">WHOLESALE SALES</TableCell>
+                        <TableCell className={classes.tableHeader} align="right">UNITS SOLD</TableCell>
+                        <TableCell className={classes.tableHeader} align="right">RETAILER MARGIN</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody className={classes.data}>
+                      {data.sales.map((sale) => (
+                        <TableRow key={sale.weekEnding}>
+                          <TableCell className={classes.data} component="th" scope="row">
+                            {sale.weekEnding}
+                          </TableCell>
+                          <TableCell className={classes.data} align="right">${sale.retailSales/1000}</TableCell>
+                          <TableCell className={classes.data} align="right">${sale.wholesaleSales/1000}</TableCell>
+                          <TableCell className={classes.data} align="right">{sale.unitsSold}</TableCell>
+                          <TableCell className={classes.data} align="right">${sale.retailerMargin/1000}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </Grid>
             </Grid>
           </Grid>
-
+        ))}
       </Grid>
     </Fragment>
   );
